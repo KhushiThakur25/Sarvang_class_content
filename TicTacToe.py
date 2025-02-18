@@ -28,7 +28,12 @@ def cpu_fun(ch):
     else:
         positions[pos-1] = ch
         occupied.append(pos)
-
+def checkWinner():
+    winning_combinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    for i in winning_combinations:
+        if positions[i[0]] == positions[i[1]] == positions[i[2]] != " ":
+            return positions[i[0]]
+    
 def main():
     gameBoard()
     user_choice = input("Enter your choice either X or 0").upper()
@@ -43,13 +48,21 @@ def main():
     print("user_choice is : ",user_choice)
     print("cpu_choice is : ",cpu_choice)
     count = 0
-    while count < 5:
+    winner = None
+    while count < 5 and not winner:
         count += 1
         user_fun(user_choice)
         gameBoard()
+        winner = checkWinner()
+        if winner:
+            print(f"{winner} congratulations ! you win ...")
+            break
         if count == 5:
             print("It's draw !")
             break
         cpu_fun(cpu_choice)
         gameBoard()
+        if winner:
+            print(f"{winner} congratulations ! you win ...")
+            break
 main()
