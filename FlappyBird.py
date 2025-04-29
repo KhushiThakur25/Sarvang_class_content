@@ -38,9 +38,16 @@ score = 0
 clock = pygame.time.Clock()
 game_active = False
 running = True
+bg_img = pygame.image.load("bgg.png")  
+bg_img = pygame.transform.scale(bg_img, (width, height)) 
+
+def calculate_gravity(tick_speed):
+    gravity = max(0,1.5 - tick_speed * 0.02)
+    return gravity
+
 
 while running:
-    screen.fill(blue)
+    screen.blit(bg_img, (0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,14 +63,15 @@ while running:
                     pipe_height = random.randint(100,400)
                 bird_movement = -6
     if game_active:
-        bird_movement += gravity
+        current_gravity = calculate_gravity(clock.get_fps() or 40)
+        bird_movement += current_gravity
         bird_y += bird_movement
         #pipe movement
         pipe_x -= 5
         if pipe_x + pipe_width < 0:
             pipe_x = width
             pipe_height = random.randint(100,400)
-            score += 1
+            score += 2
         screen.blit(bird_img,(bird_x,bird_y))
 
         pygame.draw.rect(screen,green,(pipe_x,0,pipe_width,pipe_height))
@@ -89,7 +97,7 @@ while running:
         screen.blit(text,(40,height//2 - 30))
     
     pygame.display.update()
-    clock.tick(30)
+    clock.tick(40)
 
 pygame.quit()
 
