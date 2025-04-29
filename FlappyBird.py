@@ -74,7 +74,7 @@ while running:
             game_active = False
         
         if pipe_x < bird_x + bird_width and pipe_x + pipe_width > bird_x:
-            if bird_y < pipe_height or bird_y + bird_height < pipe_height + pipe_gap:
+            if bird_y < pipe_height or bird_y + bird_height > pipe_height + pipe_gap:
                 game_active = False
 
         #score display
